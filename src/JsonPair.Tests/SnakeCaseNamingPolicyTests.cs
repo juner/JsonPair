@@ -31,5 +31,4 @@ public class SnakeCaseNamingPolicyTests
     }
     internal record ResultClass(ResultDataClass ResultData);
     internal record ResultDataClass(string StatusCode);
-
 }
