@@ -19,10 +19,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ソリューション項目
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		.gitignore = .gitignore
+		coverlet.collect.runsettings = coverlet.collect.runsettings
 		LICENSE = LICENSE
 		nuget.config = nuget.config
 		README.md = README.md
-		test.runsettings = test.runsettings
 	EndProjectSection
 EndProject
 Global
