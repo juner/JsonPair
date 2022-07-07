@@ -197,19 +197,31 @@ csharp_preserve_single_line_statements = true
 
 #### 命名スタイル ####
 
-# 名前付けルール
+# 命名規則
 
-dotnet_naming_rule.interface_should_be_begins_with_i.severity = suggestion
-dotnet_naming_rule.interface_should_be_begins_with_i.symbols = interface
-dotnet_naming_rule.interface_should_be_begins_with_i.style = begins_with_i
+dotnet_naming_rule.名前空間_should_be_パスカルケース.severity = warning
+dotnet_naming_rule.名前空間_should_be_パスカルケース.symbols = 名前空間
+dotnet_naming_rule.名前空間_should_be_パスカルケース.style = パスカルケース
 
-dotnet_naming_rule.types_should_be_pascal_case.severity = suggestion
-dotnet_naming_rule.types_should_be_pascal_case.symbols = types
-dotnet_naming_rule.types_should_be_pascal_case.style = pascal_case
+dotnet_naming_rule.インターフェース_should_be_iで始まる.severity = warning
+dotnet_naming_rule.インターフェース_should_be_iで始まる.symbols = インターフェース
+dotnet_naming_rule.インターフェース_should_be_iで始まる.style = iで始まる
 
-dotnet_naming_rule.non_field_members_should_be_pascal_case.severity = suggestion
-dotnet_naming_rule.non_field_members_should_be_pascal_case.symbols = non_field_members
-dotnet_naming_rule.non_field_members_should_be_pascal_case.style = pascal_case
+dotnet_naming_rule.インターフェース以外の型_should_be_パスカルケース.severity = warning
+dotnet_naming_rule.インターフェース以外の型_should_be_パスカルケース.symbols = インターフェース以外の型
+dotnet_naming_rule.インターフェース以外の型_should_be_パスカルケース.style = パスカルケース
+
+dotnet_naming_rule.ジェネリックの型引数_should_be_tで始まる.severity = warning
+dotnet_naming_rule.ジェネリックの型引数_should_be_tで始まる.symbols = ジェネリックの型引数
+dotnet_naming_rule.ジェネリックの型引数_should_be_tで始まる.style = tで始まる
+
+dotnet_naming_rule.定数_should_be_パスカルケース.severity = warning
+dotnet_naming_rule.定数_should_be_パスカルケース.symbols = 定数
+dotnet_naming_rule.定数_should_be_パスカルケース.style = パスカルケース
+
+dotnet_naming_rule.静的読み取り専用フィールド_should_be_パスカルケース.severity = warning
+dotnet_naming_rule.静的読み取り専用フィールド_should_be_パスカルケース.symbols = 静的読み取り専用フィールド
+dotnet_naming_rule.静的読み取り専用フィールド_should_be_パスカルケース.style = パスカルケース
 
 dotnet_naming_rule.プライベートフィールド_should_be__で始まる.severity = warning
 dotnet_naming_rule.プライベートフィールド_should_be__で始まる.symbols = プライベートフィールド
@@ -219,63 +231,81 @@ dotnet_naming_rule.プライベート以外のフィールド_should_be_パス�
 dotnet_naming_rule.プライベート以外のフィールド_should_be_パスカルケース.symbols = プライベート以外のフィールド
 dotnet_naming_rule.プライベート以外のフィールド_should_be_パスカルケース.style = パスカルケース
 
-dotnet_naming_rule.定数_should_be_オールアッパー.severity = warning
-dotnet_naming_rule.定数_should_be_オールアッパー.symbols = 定数
-dotnet_naming_rule.定数_should_be_オールアッパー.style = オールアッパー
+dotnet_naming_rule.非同期メソッド_should_be_asyncで終わる.severity = warning
+dotnet_naming_rule.非同期メソッド_should_be_asyncで終わる.symbols = 非同期メソッド
+dotnet_naming_rule.非同期メソッド_should_be_asyncで終わる.style = asyncで終わる
 
-dotnet_naming_rule.ローカル変数_should_be_キャメルケース.severity = warning
-dotnet_naming_rule.ローカル変数_should_be_キャメルケース.symbols = ローカル変数
-dotnet_naming_rule.ローカル変数_should_be_キャメルケース.style = キャメルケース
+dotnet_naming_rule.フィールド以外のメンバー_should_be_パスカルケース.severity = warning
+dotnet_naming_rule.フィールド以外のメンバー_should_be_パスカルケース.symbols = フィールド以外のメンバー
+dotnet_naming_rule.フィールド以外のメンバー_should_be_パスカルケース.style = パスカルケース
 
 dotnet_naming_rule.引数_should_be_キャメルケース.severity = warning
 dotnet_naming_rule.引数_should_be_キャメルケース.symbols = 引数
 dotnet_naming_rule.引数_should_be_キャメルケース.style = キャメルケース
 
+dotnet_naming_rule.ローカル関数_should_be_パスカルケース.severity = warning
+dotnet_naming_rule.ローカル関数_should_be_パスカルケース.symbols = ローカル関数
+dotnet_naming_rule.ローカル関数_should_be_パスカルケース.style = パスカルケース
+
+dotnet_naming_rule.ローカル変数_should_be_キャメルケース.severity = warning
+dotnet_naming_rule.ローカル変数_should_be_キャメルケース.symbols = ローカル変数
+dotnet_naming_rule.ローカル変数_should_be_キャメルケース.style = キャメルケース
+
 # 記号の仕様
 
-dotnet_naming_symbols.interface.applicable_kinds = interface
-dotnet_naming_symbols.interface.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
-dotnet_naming_symbols.interface.required_modifiers = 
+dotnet_naming_symbols.インターフェース.applicable_kinds = interface
+dotnet_naming_symbols.インターフェース.applicable_accessibilities = *
+dotnet_naming_symbols.インターフェース.required_modifiers =
 
-dotnet_naming_symbols.types.applicable_kinds = class, struct, interface, enum
-dotnet_naming_symbols.types.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
-dotnet_naming_symbols.types.required_modifiers = 
+dotnet_naming_symbols.インターフェース以外の型.applicable_kinds = class, struct, enum
+dotnet_naming_symbols.インターフェース以外の型.applicable_accessibilities = *
+dotnet_naming_symbols.インターフェース以外の型.required_modifiers =
 
-dotnet_naming_symbols.non_field_members.applicable_kinds = property, event, method
-dotnet_naming_symbols.non_field_members.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
-dotnet_naming_symbols.non_field_members.required_modifiers = 
+dotnet_naming_symbols.フィールド以外のメンバー.applicable_kinds = property, event, delegate, method
+dotnet_naming_symbols.フィールド以外のメンバー.applicable_accessibilities = *
+dotnet_naming_symbols.フィールド以外のメンバー.required_modifiers =
 
-dotnet_naming_symbols.定数.applicable_kinds = field, local
-dotnet_naming_symbols.定数.applicable_accessibilities = *
-dotnet_naming_symbols.定数.required_modifiers = static
+dotnet_naming_symbols.非同期メソッド.applicable_kinds = method, local_function
+dotnet_naming_symbols.非同期メソッド.applicable_accessibilities = *
+dotnet_naming_symbols.非同期メソッド.required_modifiers = async
+
+dotnet_naming_symbols.ジェネリックの型引数.applicable_kinds = type_parameter
+dotnet_naming_symbols.ジェネリックの型引数.applicable_accessibilities = *
+dotnet_naming_symbols.ジェネリックの型引数.required_modifiers =
 
 dotnet_naming_symbols.プライベートフィールド.applicable_kinds = field
 dotnet_naming_symbols.プライベートフィールド.applicable_accessibilities = private
 dotnet_naming_symbols.プライベートフィールド.required_modifiers =
 
-dotnet_naming_symbols.プライベート以外のフィールド.applicable_kinds = field
-dotnet_naming_symbols.プライベート以外のフィールド.applicable_accessibilities = public, internal, protected, protected_internal, private_protected
-dotnet_naming_symbols.プライベート以外のフィールド.required_modifiers =
+dotnet_naming_symbols.静的読み取り専用フィールド.applicable_kinds = field
+dotnet_naming_symbols.静的読み取り専用フィールド.applicable_accessibilities = *
+dotnet_naming_symbols.静的読み取り専用フィールド.required_modifiers = readonly, static
 
-dotnet_naming_symbols.ローカル変数.applicable_kinds = local
-dotnet_naming_symbols.ローカル変数.applicable_accessibilities = *
-dotnet_naming_symbols.ローカル変数.required_modifiers =
+dotnet_naming_symbols.定数.applicable_kinds = field, local
+dotnet_naming_symbols.定数.applicable_accessibilities = *
+dotnet_naming_symbols.定数.required_modifiers = const
 
 dotnet_naming_symbols.引数.applicable_kinds = parameter
 dotnet_naming_symbols.引数.applicable_accessibilities = *
 dotnet_naming_symbols.引数.required_modifiers =
 
+dotnet_naming_symbols.ローカル変数.applicable_kinds = local
+dotnet_naming_symbols.ローカル変数.applicable_accessibilities = *
+dotnet_naming_symbols.ローカル変数.required_modifiers =
+
+dotnet_naming_symbols.名前空間.applicable_kinds = namespace
+dotnet_naming_symbols.名前空間.applicable_accessibilities = *
+dotnet_naming_symbols.名前空間.required_modifiers =
+
+dotnet_naming_symbols.ローカル関数.applicable_kinds = local_function
+dotnet_naming_symbols.ローカル関数.applicable_accessibilities = *
+dotnet_naming_symbols.ローカル関数.required_modifiers =
+
+dotnet_naming_symbols.プライベート以外のフィールド.applicable_kinds = field
+dotnet_naming_symbols.プライベート以外のフィールド.applicable_accessibilities = public, internal, protected, protected_internal, private_protected
+dotnet_naming_symbols.プライベート以外のフィールド.required_modifiers =
+
 # 命名スタイル
-
-dotnet_naming_style.pascal_case.required_prefix = 
-dotnet_naming_style.pascal_case.required_suffix = 
-dotnet_naming_style.pascal_case.word_separator = 
-dotnet_naming_style.pascal_case.capitalization = pascal_case
-
-dotnet_naming_style.begins_with_i.required_prefix = I
-dotnet_naming_style.begins_with_i.required_suffix = 
-dotnet_naming_style.begins_with_i.word_separator = 
-dotnet_naming_style.begins_with_i.capitalization = pascal_case
 
 dotnet_naming_style.パスカルケース.required_prefix =
 dotnet_naming_style.パスカルケース.required_suffix =
@@ -306,11 +336,6 @@ dotnet_naming_style.キャメルケース.required_prefix =
 dotnet_naming_style.キャメルケース.required_suffix =
 dotnet_naming_style.キャメルケース.word_separator =
 dotnet_naming_style.キャメルケース.capitalization = camel_case
-
-dotnet_naming_style.オールアッパー.required_prefix =
-dotnet_naming_style.オールアッパー.required_suffix =
-dotnet_naming_style.オールアッパー.word_separator =
-dotnet_naming_style.オールアッパー.capitalization = all_upper
 
 dotnet_diagnostic.IDE0051.severity=warning
 dotnet_diagnostic.IDE0052.severity=warning

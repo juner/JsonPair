@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonPair.Extensions", "Extensions\JsonPair.Extensions.csproj", "{8F1BEF07-51D1-4906-9FF9-6E3751ACA234}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonPair.Extensions", "src\Extensions\JsonPair.Extensions.csproj", "{8F1BEF07-51D1-4906-9FF9-6E3751ACA234}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonPair.Extensions.Tests", "Extensions.Tests\JsonPair.Extensions.Tests.csproj", "{D20E2386-E8F0-403D-A9DE-FA98CC1CA52C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonPair.Extensions.Tests", "src\Extensions.Tests\JsonPair.Extensions.Tests.csproj", "{D20E2386-E8F0-403D-A9DE-FA98CC1CA52C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonPair.Serialization", "Serialization\JsonPair.Serialization.csproj", "{90AFDB74-9F68-467E-A29A-B6CC0F81C073}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonPair.Serialization", "src\Serialization\JsonPair.Serialization.csproj", "{90AFDB74-9F68-467E-A29A-B6CC0F81C073}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonPair.Serialization.Tests", "Serialization.Tests\JsonPair.Serialization.Tests.csproj", "{D6AFCE76-975C-4856-A793-3FFFE22F1D1C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonPair.Serialization.Tests", "src\Serialization.Tests\JsonPair.Serialization.Tests.csproj", "{D6AFCE76-975C-4856-A793-3FFFE22F1D1C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonPair", "JsonPair\JsonPair.csproj", "{0DC2256C-0265-45BA-B2FF-BE6C27BE1CC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonPair", "src\JsonPair\JsonPair.csproj", "{0DC2256C-0265-45BA-B2FF-BE6C27BE1CC4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonPair.Tests", "JsonPair.Tests\JsonPair.Tests.csproj", "{2E34EE5A-C37A-4B44-BF57-CB2B7080FCD0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonPair.Tests", "src\JsonPair.Tests\JsonPair.Tests.csproj", "{2E34EE5A-C37A-4B44-BF57-CB2B7080FCD0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ソリューション項目", "ソリューション項目", "{6AACB255-3CB0-4D7C-88FD-459C472AF40F}"
 	ProjectSection(SolutionItems) = preProject
