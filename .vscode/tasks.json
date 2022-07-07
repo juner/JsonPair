@@ -1,0 +1,132 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "command": "dotnet",
+            "type": "shell",
+            "args": [
+                "build",
+                // Ask dotnet build to generate full paths for file names.
+                "/property:GenerateFullPaths=true",
+                // Do not generate summary otherwise it leads to duplicate errors in Problems panel
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "group": "build",
+            "presentation": {
+                "reveal": "silent"
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "tool restore",
+            "command": "dotnet",
+            "type": "shell",
+            "args": [
+                "tool",
+                "restore",
+            ],
+            "group": "build",
+            "presentation": {
+                "reveal": "silent"
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "reportgenerator",
+            "command": "dotnet",
+            "type": "shell",
+            "args": [
+                "reportgenerator",
+                "-reports:src/*/TestResults/*/coverage.cobertura.xml",
+                "-reporttypes:'Html;JsonSummary;Cobertura'",
+                "-targetdir:TestResults/report"
+            ],
+            "group": "test",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "test",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "test JsonPair.Tests",
+                "test JsonPair.Extensions.Tests",
+                "test JsonPair.Serialization.Tests",
+                "reportgenerator",
+            ],
+            "group": "test",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "test JsonPair.Tests",
+            "command": "dotnet",
+            "type": "shell",
+            "args": [
+                "test",
+                "./src/JsonPair.Tests",
+                "--collect",
+                "XPlat Code Coverage"
+            ],
+            "group": "test",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "test JsonPair.Extensions.Tests",
+            "command": "dotnet",
+            "type": "shell",
+            "args": [
+                "test",
+                "./src/Extensions.Tests",
+                "--collect",
+                "XPlat Code Coverage"
+            ],
+            "group": "test",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "test JsonPair.Serialization.Tests",
+            "command": "dotnet",
+            "type": "shell",
+            "args": [
+                "test",
+                "./src/Serialization.Tests",
+                "--collect",
+                "XPlat Code Coverage",
+            ],
+            "group": "test",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": "$msCompile"
+        }
+    ]
+}

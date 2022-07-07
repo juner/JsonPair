@@ -1,0 +1,21 @@
+<Project>
+  <ItemGroup>
+    <PackageReference Update="coverlet.msbuild" Version="3.1.2">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.1.0" />
+    <PackageReference Update="MSTest.TestAdapter" Version="2.2.8" />
+    <PackageReference Update="MSTest.TestFramework" Version="2.2.8" />
+    <PackageReference Update="coverlet.collector" Version="3.1.2" />
+  </ItemGroup>
+  <!--
+    Work around .editorconfig evaluation bugs in command line builds.
+    https://github.com/dotnet/roslyn/issues/43371
+  -->
+  <ItemGroup Condition="'$(DesignTimeBuild)' != 'true'">
+    <_AbsoluteCompile Include="@(Compile->'%(FullPath)')" />
+    <Compile Remove="@(Compile)" />
+    <Compile Include="@(_AbsoluteCompile)" />
+  </ItemGroup>
+</Project>
