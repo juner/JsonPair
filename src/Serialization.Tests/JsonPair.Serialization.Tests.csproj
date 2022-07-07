@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <IsPackable>false</IsPackable>
-    <RunSettingsFilePath>..\..\coverlet.collect.runsettings</RunSettingsFilePath>
+    <RunSettingsFilePath>$(MSBuildProjectDirectory)\..\..\coverlet.collect.runsettings</RunSettingsFilePath>
   </PropertyGroup>
 
   <ItemGroup>

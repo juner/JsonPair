@@ -73,7 +73,9 @@ public class SimpleKeyValuePairEnumerableConverterExtensionsTests
         [property: JsonIgnore(Condition = JsonIgnoreCondition.Always)] string ValueData2)
     {
         public string GetOnlyValue { get; } = "sugoi!";
+#pragma warning disable CA1822 //Member 'SetOnlyValue' does not access instance data and can be marked as static [JsonPair.Extensions.Tests]csharp(CA1822)
         public string SetOnlyValue { set { } }
+#pragma warning restore CA1822 //Member 'SetOnlyValue' does not access instance data and can be marked as static [JsonPair.Extensions.Tests]csharp(CA1822)
         public string FieldValue = "test";
     }
     static IEnumerable<object?[]> TextEncodingPatternTestData
