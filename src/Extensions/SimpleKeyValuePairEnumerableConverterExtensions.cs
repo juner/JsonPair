@@ -90,8 +90,8 @@ public static class SimpleKeyValuePairEnumerableConverterExtensions
             MemberTypes.Property => ((PropertyInfo)member).GetValue(self),
             _ => throw new ArgumentException($"not support memberType:{member.MemberType}"),
         };
-    static MethodInfo? IS_IGNORE_CACHE;
-    static MethodInfo IsIgnoreCache => IS_IGNORE_CACHE ??= typeof(SimpleKeyValuePairEnumerableConverterExtensions)
+    static MethodInfo? _isIgnoreCache;
+    static MethodInfo IsIgnoreCache => _isIgnoreCache ??= typeof(SimpleKeyValuePairEnumerableConverterExtensions)
             .GetMethod(nameof(IsIgnore), BindingFlags.NonPublic | BindingFlags.Static)!;
     /// <summary>
     /// <see cref="IsIgnore{T1, T2}(MemberInfo, T2)"/> を プロパティの型を適用して呼び出す
