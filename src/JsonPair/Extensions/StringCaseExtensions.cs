@@ -6,14 +6,14 @@
 public static class StringCaseExtensions
 {
     /// <summary>
-    /// CamelCase to snake_case
+    /// camelCase to snake_case
     /// </summary>
     /// <param name="str"></param>
     /// <returns></returns>
-    public static string ToSnakeCase(this string str)
+    public static string CamelCaseToSnakeCase(this string str)
     {
         ReadOnlySpan<char> camelSpan = str;
-        Span<char> buffer = stackalloc char[camelSpan.Length * 2 - 1];
+        Span<char> buffer = stackalloc char[(camelSpan.Length * 2) - 1];
         var bufferPos = 0;
         for (var i = 0; i < camelSpan.Length; i++)
         {
@@ -28,6 +28,36 @@ public static class StringCaseExtensions
             {
                 buffer[bufferPos++] = target;
             }
+        }
+        return buffer[..bufferPos].ToString();
+    }
+    /// <summary>
+    /// snake_case to camelCase
+    /// </summary>
+    /// <param name="str"></param>
+    /// <param name="usePascal">use PascalCase</param>
+    /// <returns></returns>
+    public static string SnakeCaseToCamelCase(this string str, bool usePascal = false)
+    {
+        ReadOnlySpan<char> snakeSpan = str;
+        Span<char> buffer = stackalloc char[snakeSpan.Length];
+        var bufferPos = 0;
+        var isUpper = usePascal;
+        for (var i = 0; i < snakeSpan.Length; i++)
+        {
+            var target = snakeSpan[i];
+            if (target == '_')
+            {
+                isUpper = true;
+                continue;
+            }
+            if (isUpper)
+            {
+                buffer[bufferPos++] = char.ToUpper(target);
+                isUpper = false;
+            }
+            else
+                buffer[bufferPos++] = char.ToLower(target);
         }
         return buffer[..bufferPos].ToString();
     }

@@ -9,5 +9,5 @@ namespace JsonPair;
 public class SnakeCaseNamingPolicy : JsonNamingPolicy
 {
     /// <inheritdoc/>
-    public override string ConvertName(string name) => name.ToSnakeCase();
+    public override string ConvertName(string name) => name.CamelCaseToSnakeCase();
 }

@@ -166,14 +166,16 @@ public class SimpleKeyValuePairEnumerableConverterExtensionsTests
         CollectionAssert.AreEquivalent(expected, actual);
     }
     internal record Record7([property: JsonPropertyName("data-value")] string ValueData);
-    public static IEnumerable<object?[]> BuildQueryStringTestData{
-        get {
-            yield return BuildQueryString(new KeyValuePair<string,string>[]{
+    public static IEnumerable<object?[]> BuildQueryStringTestData
+    {
+        get
+        {
+            yield return BuildQueryString(new KeyValuePair<string, string>[]{
                 new("name1", "value1"),
                 new("name2", "value2"),
             }, "name1=value1&name2=value2");
             static object?[] BuildQueryString(IEnumerable<KeyValuePair<string, string>> self, string expected)
-                => new object?[] {self, expected}; 
+                => new object?[] { self, expected };
         }
     }
     [TestMethod("key/value の列挙からの クエリ文字列の生成")]

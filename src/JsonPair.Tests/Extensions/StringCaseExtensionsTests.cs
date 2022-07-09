@@ -1,4 +1,7 @@
-﻿namespace JsonPair.Extensions.Tests;
+﻿using JsonPair.Extensions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace JsonPair.Extensions.Tests;
 
 [TestClass()]
 public class StringCaseExtensionsTests
@@ -8,10 +11,17 @@ public class StringCaseExtensionsTests
     /// </summary>
     /// <param name="value"></param>
     /// <param name="expected"></param>
-    [TestMethod("スネークケース変換")]
+    [TestMethod("CamelCase -> snake_case")]
     [DataRow("CamelCase", "camel_case")]
     [DataRow("pascalCase", "pascal_case")]
     [DataRow("ACamelCase", "a_camel_case")]
-    public void ToSnakeCaseTest(string value, string expected)
-        => Assert.AreEqual(expected, value.ToSnakeCase());
+    public void CamelCaseToSnakeCaseTest(string value, string expected)
+        => Assert.AreEqual(expected, value.CamelCaseToSnakeCase());
+
+    [TestMethod("snake_case -> CamelCase ")]
+    [DataRow("snake_case", false, "snakeCase")]
+    [DataRow("snake_case", true, "SnakeCase")]
+    [DataRow("_snake_case", false, "SnakeCase")]
+    public void SnakeCaseToCamelCaseTest(string value, bool usePascal, string expected)
+        => Assert.AreEqual(expected, value.SnakeCaseToCamelCase(usePascal));
 }
