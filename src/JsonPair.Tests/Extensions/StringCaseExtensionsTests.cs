@@ -22,6 +22,7 @@ public class StringCaseExtensionsTests
     [DataRow("snake_case", false, "snakeCase")]
     [DataRow("snake_case", true, "SnakeCase")]
     [DataRow("_snake_case", false, "SnakeCase")]
+    [DataRow("SNAKE_CASE", false, "snakeCase")]
     public void SnakeCaseToCamelCaseTest(string value, bool usePascal, string expected)
         => Assert.AreEqual(expected, value.SnakeCaseToCamelCase(usePascal));
 }
