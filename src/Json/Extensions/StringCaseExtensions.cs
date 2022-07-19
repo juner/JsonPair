@@ -1,4 +1,4 @@
-﻿namespace JsonPair.Extensions;
+﻿namespace Juners.Json.Extensions;
 
 /// <summary>
 /// string case converter

@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace JsonPair.Serialization;
+namespace Juners.Json.Serialization;
 
 /// <summary>
 /// enum を pascalCase 文字列として表現する

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace JsonPair.Serialization.Tests;
+namespace Juners.Json.Serialization.Tests;
 
 [TestClass()]
 public class BitBoolConverterTests

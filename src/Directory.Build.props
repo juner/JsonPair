@@ -16,6 +16,6 @@
 		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
 		<Authors>juner</Authors>
 		<Company>junersProject</Company>
-		<PackageProjectUrl>https://github.com/juner/JsonPair</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/juner/Juners.Json</PackageProjectUrl>
 	</PropertyGroup>
 </Project>

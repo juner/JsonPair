@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <IsPackable>false</IsPackable>
@@ -13,7 +13,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\JsonPair\JsonPair.csproj" />
+    <ProjectReference Include="..\Json.Serialization\Juners.Json.Serialization.csproj" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <TestResultsFolderPath>$(MSBuildProjectDirectory)\TestResults</TestResultsFolderPath>
+  </PropertyGroup>
+  <Target Name="TestResultCleaning" AfterTargets="Clean">
+    <RemoveDir Directories="$(TestResultsFolderPath)" Condition="Exists('$(TestResultsFolderPath)')" />
+  </Target>
 </Project>

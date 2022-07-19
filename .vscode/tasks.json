@@ -57,9 +57,9 @@
             "label": "test",
             "dependsOrder": "sequence",
             "dependsOn": [
-                "test JsonPair.Tests",
-                "test JsonPair.Extensions.Tests",
-                "test JsonPair.Serialization.Tests",
+                "test Juners.Json.Tests",
+                "test Juners.Json.Extensions.Tests",
+                "test Juners.Json.Serialization.Tests",
                 "reportgenerator",
             ],
             "group": "test",
@@ -72,12 +72,12 @@
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "test JsonPair.Tests",
+            "label": "test Juners.Json.Tests",
             "command": "dotnet",
             "type": "shell",
             "args": [
                 "test",
-                "./src/JsonPair.Tests",
+                "./src/Juners.Json.Tests",
                 "--collect",
                 "XPlat Code Coverage"
             ],
@@ -91,7 +91,7 @@
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "test JsonPair.Extensions.Tests",
+            "label": "test Juners.Json.Extensions.Tests",
             "command": "dotnet",
             "type": "shell",
             "args": [
@@ -110,7 +110,7 @@
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "test JsonPair.Serialization.Tests",
+            "label": "test Juners.Json.Serialization.Tests",
             "command": "dotnet",
             "type": "shell",
             "args": [

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace JsonPair.Serialization.Tests;
+namespace Juners.Json.Serialization.Tests;
 
 [TestClass()]
 public class YnBoolConverterTests
@@ -30,19 +30,6 @@ public class YnBoolConverterTests
         };
         var actual = JsonSerializer.Deserialize<bool>(json, options);
         Assert.AreEqual(expected, actual);
-    }
-    [TestMethod("json -> bool (throw)")]
-    public void ReadThrowTest()
-    {
-
-        JsonSerializerOptions options = new()
-        {
-            Converters =
-            {
-                new YnBoolConverter(),
-            }
-        };
-        var actual = JsonSerializer.Deserialize<bool>("\"S\"", options);
     }
     static IEnumerable<object?[]> WriteTestData
     {

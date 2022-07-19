@@ -1,7 +1,7 @@
-﻿using JsonPair.Extensions;
+﻿using Juners.Json.Extensions;
 using System.Text.Json;
 
-namespace JsonPair;
+namespace Juners.Json;
 
 /// <summary>
 /// snake_case 形式に名前を変換するポリシー

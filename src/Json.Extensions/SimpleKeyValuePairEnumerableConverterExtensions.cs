@@ -6,7 +6,7 @@ using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace JsonPair.Extensions;
+namespace Juners.Json.Extensions;
 
 /// <summary>
 /// オブジェクトを key/value で列挙する為の拡張関数 <see cref="ToKeyValuePairEnumerable{T}(T, JsonSerializerOptions)"/> の為の拡張関数群

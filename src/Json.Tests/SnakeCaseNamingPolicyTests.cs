@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace JsonPair.Tests;
+namespace Juners.Json.Tests;
 
 [TestClass]
 public class SnakeCaseNamingPolicyTests

@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	  <PackageId>JsonPair.Serialization</PackageId>
+	  <PackageId>Juners.Json.Extensions</PackageId>
   </PropertyGroup>
 
 </Project>

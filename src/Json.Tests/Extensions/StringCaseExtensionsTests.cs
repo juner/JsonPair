@@ -1,7 +1,7 @@
-﻿using JsonPair.Extensions;
+﻿using Juners.Json.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace JsonPair.Extensions.Tests;
+namespace Juners.Json.Extensions.Tests;
 
 [TestClass()]
 public class StringCaseExtensionsTests
