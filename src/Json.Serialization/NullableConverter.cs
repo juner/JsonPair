@@ -6,21 +6,55 @@ using System.Text.Json.Serialization;
 
 namespace Juners.Json.Serialization;
 
-public class NullableConverter : JsonConverterFactory
+/// <summary>
+/// any nullable type converter
+/// </summary>
+public sealed class NullableConverter : JsonConverterFactory
 {
     readonly JsonConverter _converter;
     readonly NullableType _readNullable;
     readonly NullableType _writeNullable;
+    /// <summary>
+    /// any nullable type converter
+    /// </summary>
+    /// <param name="converter"></param>
+    public NullableConverter(JsonConverter converter) : this(converter, NullableType.Null) { }
+    /// <summary>
+    /// any nullable type converter
+    /// </summary>
+    /// <param name="converter"></param>
+    /// <param name="nullable"></param>
+    public NullableConverter(JsonConverter converter, NullableType nullable = NullableType.Null) : this(converter, nullable, nullable) { }
+    /// <summary>
+    /// any nullable type converter
+    /// </summary>
+    /// <param name="converter"></param>
+    /// <param name="readNullable"></param>
+    /// <param name="writeNullable"></param>
     public NullableConverter(JsonConverter converter, NullableType readNullable, NullableType writeNullable)
     {
+        Validate(converter);
         _converter = converter;
         _readNullable = readNullable;
         _writeNullable = writeNullable;
     }
+    static void Validate(JsonConverter converter)
+    {
+        if (converter is null)
+            throw new ArgumentNullException(nameof(converter));
+        if (converter is NullableConverter)
+            throw new ArgumentException($"not support converter type {converter.GetType()}", nameof(converter));
+        if (converter.GetType() is { IsGenericType: true } and Type type
+            && type.GetGenericTypeDefinition() is Type definitionType && (
+                definitionType == typeof(NullableConverter<>)
+                || definitionType == typeof(NullableConverter<,>)
+            ))
+            throw new ArgumentException($"not support converter type {converter.GetType()}", nameof(converter));
+    }
 
     public override bool CanConvert(Type typeToConvert)
     {
-        if(_converter.TryGetFactory(out var factory))
+        if (_converter.TryGetFactory(out var factory))
         {
             return factory.CanConvert(typeToConvert)
                 || (
@@ -36,64 +70,70 @@ public class NullableConverter : JsonConverterFactory
     }
     public override JsonConverter? CreateConverter(Type typeToConvert, JsonSerializerOptions options)
     {
-        if (TryGetCreateConverter(typeToConvert, options, out var converter, out var outerType, out var innerType))
+        if (_converter.TryGetTypedConverter(typeToConvert, options, out var converter, out var outerType, out var innerType))
         {
-            var type = outerType == innerType
-                ? typeof(NullableConverter<>).MakeGenericType(outerType)
-                : typeof(NullableConverter<,>).MakeGenericType(outerType, innerType);
+            var type = outerType != innerType
+                ? typeof(NullableConverter<,>).MakeGenericType(outerType, innerType)
+                : typeof(NullableConverter<>).MakeGenericType(outerType);
             return Activator.CreateInstance(type, new object?[] { converter, _readNullable, _writeNullable }) as JsonConverter;
         }
         return null;
     }
-    bool TryGetCreateConverter(Type typeToConvert, JsonSerializerOptions options,[NotNullWhen(true)]out JsonConverter converter, [NotNullWhen(true)] out Type outerType, [NotNullWhen(true)] out Type innerType)
-    {
-        outerType = typeToConvert;
-        if (_converter.TryGetFactory(out var factory))
-        {
-            if (factory.TryCreateTypedConverter(typeToConvert, options, out converter, out innerType))
-                return outerType.IsAssignableFrom(innerType);
-            else if (Nullable.GetUnderlyingType(typeToConvert) is { } notNullableTypeToConvert
-                    && factory.TryCreateTypedConverter(notNullableTypeToConvert, options, out converter, out innerType))
-                return outerType.IsAssignableFrom(innerType);
-            return false;
-        }
-        if (_converter.TryGetTypedConverter(out converter, out innerType))
-            return outerType.IsAssignableFrom(innerType);
-        return false;
-    }
 }
-public class NullableConverter<T1,T2> : JsonConverter<T1>
-    where T1 : T2?
+/// <summary>
+/// any nullable type converter
+/// </summary>
+/// <typeparam name="TOuter">外見型</typeparam>
+/// <typeparam name="TInner">内部型</typeparam>
+public sealed class NullableConverter<TOuter, TInner> : JsonConverter<TOuter>
 {
-    readonly JsonConverter<T2> _converter;
+    readonly JsonConverter<TInner> _converter;
     readonly NullableType _readNullable;
     readonly NullableType _writeNullable;
-    public NullableConverter(JsonConverter<T2> converter, NullableType readNullable, NullableType writeNullable)
+    /// <summary>
+    /// any nullable type converter
+    /// </summary>
+    /// <param name="converter"></param>
+    /// <param name="nullable"></param>
+    public NullableConverter(JsonConverter<TInner> converter, NullableType nullable) : this(converter, nullable, nullable) { }
+    /// <summary>
+    /// any nullable type converter
+    /// </summary>
+    /// <param name="converter"></param>
+    /// <param name="readNullable"></param>
+    /// <param name="writeNullable"></param>
+    public NullableConverter(JsonConverter<TInner> converter, NullableType readNullable, NullableType writeNullable)
     {
         _converter = converter;
         _readNullable = readNullable;
         _writeNullable = writeNullable;
     }
 
-    public override T1? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override TOuter? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.IsNullable(_readNullable))
             return default;
         typeToConvert = Nullable.GetUnderlyingType(typeToConvert) ?? typeToConvert;
-        return (T1)_converter.Read(ref reader, typeToConvert, options)!;
+        if (_converter.Read(ref reader, typeToConvert, options) is not TOuter result)
+            return default;
+        return result;
     }
-    public override void Write(Utf8JsonWriter writer, T1 value, JsonSerializerOptions options)
+    public override void Write(Utf8JsonWriter writer, TOuter value, JsonSerializerOptions options)
     {
-        if (value is null)
+        if (value is not TInner innerValue)
         {
             if (!writer.TryWriteNull(_writeNullable))
                 throw new JsonException();
             return;
         }
-        _converter.Write(writer, value, options);
+        _converter.Write(writer, innerValue, options);
     }
 }
-public class NullableConverter<T> : JsonConverter<T>
+/// <summary>
+/// 任意に定義した null表現のあるコンバーター
+/// </summary>
+/// <typeparam name="T">外見型</typeparam>
+public sealed class NullableConverter<T> : JsonConverter<T>
 {
     readonly JsonConverter<T> _converter;
     readonly NullableType _readNullable;
@@ -120,61 +160,5 @@ public class NullableConverter<T> : JsonConverter<T>
             return;
         }
         _converter.Write(writer, value, options);
-    }
-}
-/// <summary>
-/// nullにする値
-/// </summary>
-[Flags]
-public enum NullableType
-{
-    /// <summary>
-    /// 未設定
-    /// </summary>
-    None = default,
-    /// <summary>
-    /// Null
-    /// </summary>
-    Null = 1,
-    /// <summary>
-    /// False
-    /// </summary>
-    False = 2,
-    /// <summary>
-    /// Empty String
-    /// </summary>
-    EmptyString = 4,
-}
-
-internal static class NullableTypeExtensions
-{
-    public static bool IsNullable(in this Utf8JsonReader self, NullableType nullable)
-    {
-        if ((nullable & NullableType.Null) == NullableType.Null)
-            return true;
-        if ((nullable & NullableType.False) == NullableType.False)
-            return true;
-        if ((nullable & NullableType.EmptyString)== NullableType.EmptyString)
-            return self.ValueSpan.Length == 0;
-        return false;
-    }
-    public static bool TryWriteNull(this Utf8JsonWriter self, NullableType nullable)
-    {
-        if ((nullable & NullableType.Null) == NullableType.Null)
-        {
-            self.WriteNullValue();
-            return true;
-        }
-        if ((nullable & NullableType.False) == NullableType.False)
-        {
-            self.WriteBooleanValue(false);
-            return true;
-        }
-        if ((nullable & NullableType.EmptyString) == NullableType.EmptyString)
-        {
-            self.WriteStringValue(string.Empty);
-            return true;
-        }
-        return false;
     }
 }
