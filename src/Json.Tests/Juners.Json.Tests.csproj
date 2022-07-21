@@ -16,4 +16,10 @@
     <ProjectReference Include="..\Json\Juners.Json.csproj" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <TestResultsFolderPath>$(MSBuildProjectDirectory)\TestResults</TestResultsFolderPath>
+  </PropertyGroup>
+  <Target Name="TestResultCleaning" AfterTargets="Clean">
+    <RemoveDir Directories="$(TestResultsFolderPath)" Condition="Exists('$(TestResultsFolderPath)')" />
+  </Target>
 </Project>
