@@ -54,7 +54,8 @@ public class BitBoolConverterTests
         Assert.AreEqual(expected, actual);
     }
     [TestMethod]
-    public void ThrownTest() {     
+    public void ThrownTest()
+    {
         JsonSerializerOptions options = new()
         {
             Converters =
