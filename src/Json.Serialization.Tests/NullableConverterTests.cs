@@ -17,7 +17,7 @@ public class NullableConverterTests
     public void CanConvertTest1()
     {
         var innerConverter = new JsonStringEnumConverter();
-        var outerConverter = new NullableConverter(innerConverter);
+        var outerConverter = new JsonNullableConverter(innerConverter);
 
         // 前提条件 inner の挙動
         Assert.AreEqual(true, innerConverter.CanConvert(typeof(Enum1)), "inner enum");
@@ -31,12 +31,12 @@ public class NullableConverterTests
         {
             var actualConverter = outerConverter.CreateConverter(typeof(Enum1), options);
             var actualConverterDefinitionType = actualConverter?.GetType().GetGenericTypeDefinition();
-            Assert.AreEqual(typeof(NullableConverter<>), actualConverterDefinitionType, "simple");
+            Assert.AreEqual(typeof(JsonNullableConverter<>), actualConverterDefinitionType, "simple");
         }
         {
             var actualConverter = outerConverter.CreateConverter(typeof(Enum1?), options);
             var actualConverterDefinitionType = actualConverter?.GetType().GetGenericTypeDefinition();
-            Assert.AreEqual(typeof(NullableConverter<,>), actualConverterDefinitionType, "nullable");
+            Assert.AreEqual(typeof(JsonNullableConverter<,>), actualConverterDefinitionType, "nullable");
         }
 
     }

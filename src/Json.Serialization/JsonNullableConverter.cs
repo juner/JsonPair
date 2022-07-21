@@ -9,7 +9,7 @@ namespace Juners.Json.Serialization;
 /// <summary>
 /// any nullable type converter
 /// </summary>
-public sealed class NullableConverter : JsonConverterFactory
+public sealed class JsonNullableConverter : JsonConverterFactory
 {
     readonly JsonConverter _converter;
     readonly NullableType _readNullable;
@@ -18,20 +18,20 @@ public sealed class NullableConverter : JsonConverterFactory
     /// any nullable type converter
     /// </summary>
     /// <param name="converter"></param>
-    public NullableConverter(JsonConverter converter) : this(converter, NullableType.Null) { }
+    public JsonNullableConverter(JsonConverter converter) : this(converter, NullableType.Null) { }
     /// <summary>
     /// any nullable type converter
     /// </summary>
     /// <param name="converter"></param>
     /// <param name="nullable"></param>
-    public NullableConverter(JsonConverter converter, NullableType nullable = NullableType.Null) : this(converter, nullable, nullable) { }
+    public JsonNullableConverter(JsonConverter converter, NullableType nullable = NullableType.Null) : this(converter, nullable, nullable) { }
     /// <summary>
     /// any nullable type converter
     /// </summary>
     /// <param name="converter"></param>
     /// <param name="readNullable"></param>
     /// <param name="writeNullable"></param>
-    public NullableConverter(JsonConverter converter, NullableType readNullable, NullableType writeNullable)
+    public JsonNullableConverter(JsonConverter converter, NullableType readNullable, NullableType writeNullable)
     {
         Validate(converter);
         _converter = converter;
@@ -42,12 +42,12 @@ public sealed class NullableConverter : JsonConverterFactory
     {
         if (converter is null)
             throw new ArgumentNullException(nameof(converter));
-        if (converter is NullableConverter)
+        if (converter is JsonNullableConverter)
             throw new ArgumentException($"not support converter type {converter.GetType()}", nameof(converter));
         if (converter.GetType() is { IsGenericType: true } and Type type
             && type.GetGenericTypeDefinition() is Type definitionType && (
-                definitionType == typeof(NullableConverter<>)
-                || definitionType == typeof(NullableConverter<,>)
+                definitionType == typeof(JsonNullableConverter<>)
+                || definitionType == typeof(JsonNullableConverter<,>)
             ))
             throw new ArgumentException($"not support converter type {converter.GetType()}", nameof(converter));
     }
@@ -73,8 +73,8 @@ public sealed class NullableConverter : JsonConverterFactory
         if (_converter.TryGetTypedConverter(typeToConvert, options, out var converter, out var outerType, out var innerType))
         {
             var type = outerType != innerType
-                ? typeof(NullableConverter<,>).MakeGenericType(outerType, innerType)
-                : typeof(NullableConverter<>).MakeGenericType(outerType);
+                ? typeof(JsonNullableConverter<,>).MakeGenericType(outerType, innerType)
+                : typeof(JsonNullableConverter<>).MakeGenericType(outerType);
             return Activator.CreateInstance(type, new object?[] { converter, _readNullable, _writeNullable }) as JsonConverter;
         }
         return null;
@@ -85,7 +85,7 @@ public sealed class NullableConverter : JsonConverterFactory
 /// </summary>
 /// <typeparam name="TOuter">外見型</typeparam>
 /// <typeparam name="TInner">内部型</typeparam>
-public sealed class NullableConverter<TOuter, TInner> : JsonConverter<TOuter>
+public sealed class JsonNullableConverter<TOuter, TInner> : JsonConverter<TOuter>
 {
     readonly JsonConverter<TInner> _converter;
     readonly NullableType _readNullable;
@@ -95,14 +95,14 @@ public sealed class NullableConverter<TOuter, TInner> : JsonConverter<TOuter>
     /// </summary>
     /// <param name="converter"></param>
     /// <param name="nullable"></param>
-    public NullableConverter(JsonConverter<TInner> converter, NullableType nullable) : this(converter, nullable, nullable) { }
+    public JsonNullableConverter(JsonConverter<TInner> converter, NullableType nullable) : this(converter, nullable, nullable) { }
     /// <summary>
     /// any nullable type converter
     /// </summary>
     /// <param name="converter"></param>
     /// <param name="readNullable"></param>
     /// <param name="writeNullable"></param>
-    public NullableConverter(JsonConverter<TInner> converter, NullableType readNullable, NullableType writeNullable)
+    public JsonNullableConverter(JsonConverter<TInner> converter, NullableType readNullable, NullableType writeNullable)
     {
         _converter = converter;
         _readNullable = readNullable;
@@ -133,12 +133,12 @@ public sealed class NullableConverter<TOuter, TInner> : JsonConverter<TOuter>
 /// 任意に定義した null表現のあるコンバーター
 /// </summary>
 /// <typeparam name="T">外見型</typeparam>
-public sealed class NullableConverter<T> : JsonConverter<T>
+public sealed class JsonNullableConverter<T> : JsonConverter<T>
 {
     readonly JsonConverter<T> _converter;
     readonly NullableType _readNullable;
     readonly NullableType _writeNullable;
-    public NullableConverter(JsonConverter<T> converter, NullableType readNullable, NullableType writeNullable)
+    public JsonNullableConverter(JsonConverter<T> converter, NullableType readNullable, NullableType writeNullable)
     {
         _converter = converter;
         _readNullable = readNullable;
