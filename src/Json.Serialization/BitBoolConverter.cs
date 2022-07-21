@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Juners.Json.Serialization;
 
 /// <summary>
-/// 
+/// bit bool converter
 /// </summary>
 public class BitBoolConverter : JsonConverter<bool>
 {

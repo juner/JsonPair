@@ -53,4 +53,16 @@ public class BitBoolConverterTests
         var actual = JsonSerializer.Serialize(value, options);
         Assert.AreEqual(expected, actual);
     }
+    [TestMethod]
+    public void ThrownTest() {     
+        JsonSerializerOptions options = new()
+        {
+            Converters =
+            {
+                new BitBoolConverter(),
+            }
+        };
+        Assert.ThrowsException<FormatException>(() => JsonSerializer.Deserialize<bool>("\"\"", options));
+        Assert.ThrowsException<FormatException>(() => JsonSerializer.Deserialize<bool>("\"S\"", options));
+    }
 }
