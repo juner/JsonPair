@@ -67,13 +67,13 @@ public class JsonNullableConverterAttributeTests
         }
     }
     internal record Record1(
-        [property: JsonNullableConverter(typeof(JsonStringEnumConverter), NullableType.False)]
+        [property: JsonNullableConverter(typeof(JsonStringEnumConverter), JsonNullableType.False)]
         Enum1? Value1 = null,
-        [property: JsonNullableConverter(typeof(JsonStringEnumConverter), NullableType.EmptyString)]
+        [property: JsonNullableConverter(typeof(JsonStringEnumConverter), JsonNullableType.EmptyString)]
         Enum1? Value2 = null,
-        [property: JsonNullableConverter(typeof(JsonStringEnumConverter), NullableType.Null)]
+        [property: JsonNullableConverter(typeof(JsonStringEnumConverter), JsonNullableType.Null)]
         Enum1? Value3 = null,
-        [property: JsonNullableConverter(typeof(InconsistentConverter), NullableType.EmptyArray)]
+        [property: JsonNullableConverter(typeof(InconsistentConverter), JsonNullableType.EmptyArray)]
         RecordChild1? Value4 = null);
     internal enum Enum1
     {
@@ -114,7 +114,7 @@ public class JsonNullableConverterAttributeTests
 
     }
     internal record Record2(
-        [property: JsonNullableConverter(typeof(JsonStringEnumConverter), ReadNullable = NullableType.Any)]
+        [property: JsonNullableConverter(typeof(JsonStringEnumConverter), ReadNullable = JsonNullableType.Any)]
         Enum1? Value
         );
     [TestMethod("NullableType.None")]
@@ -153,7 +153,7 @@ public class JsonNullableConverterAttributeTests
     }
 
     internal record Record3(
-        [property: JsonNullableConverter(typeof(JsonStringEnumConverter), NullableType.None)]
+        [property: JsonNullableConverter(typeof(JsonStringEnumConverter), JsonNullableType.None)]
         Enum1? Value
         );
 }

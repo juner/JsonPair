@@ -4,7 +4,7 @@
 /// nullにする値
 /// </summary>
 [Flags]
-public enum NullableType
+public enum JsonNullableType
 {
     /// <summary>
     /// 未設定

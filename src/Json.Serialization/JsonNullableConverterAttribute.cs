@@ -12,17 +12,17 @@ public class JsonNullableConverterAttribute : JsonConverterAttribute
     /// <summary>
     /// read nullable
     /// </summary>
-    public NullableType ReadNullable { get; set; }
+    public JsonNullableType ReadNullable { get; set; }
     /// <summary>
     /// write nullable
     /// </summary>
-    public NullableType WriteNullable { get; set; }
+    public JsonNullableType WriteNullable { get; set; }
     /// <summary>
     /// use <see cref="JsonNullableConverter"/> attribute.
     /// </summary>
     /// <param name="converterType"></param>
     /// <param name="nullable"></param>
-    public JsonNullableConverterAttribute(Type converterType, NullableType nullable = NullableType.Null) : this(converterType, nullable, nullable) { }
+    public JsonNullableConverterAttribute(Type converterType, JsonNullableType nullable = JsonNullableType.Null) : this(converterType, nullable, nullable) { }
     /// <summary>
     /// use <see cref="JsonNullableConverter"/> attribute.
     /// </summary>
@@ -30,7 +30,7 @@ public class JsonNullableConverterAttribute : JsonConverterAttribute
     /// <param name="readNullable"></param>
     /// <param name="writeNullable"></param>
     /// <exception cref="ArgumentException"></exception>
-    public JsonNullableConverterAttribute(Type converterType, NullableType readNullable, NullableType writeNullable) : base(default!)
+    public JsonNullableConverterAttribute(Type converterType, JsonNullableType readNullable, JsonNullableType writeNullable) : base(default!)
     {
         if (!typeof(JsonConverter).IsAssignableFrom(converterType))
             throw new ArgumentException($"required type is {typeof(JsonConverter)}. converterType:{converterType}", nameof(converterType));

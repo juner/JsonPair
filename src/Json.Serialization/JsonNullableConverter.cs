@@ -11,26 +11,26 @@ namespace Juners.Json.Serialization;
 public sealed class JsonNullableConverter : JsonConverterFactory
 {
     readonly JsonConverter _converter;
-    readonly NullableType _readNullable;
-    readonly NullableType _writeNullable;
+    readonly JsonNullableType _readNullable;
+    readonly JsonNullableType _writeNullable;
     /// <summary>
     /// any nullable type converter
     /// </summary>
     /// <param name="converter"></param>
-    public JsonNullableConverter(JsonConverter converter) : this(converter, NullableType.Null) { }
+    public JsonNullableConverter(JsonConverter converter) : this(converter, JsonNullableType.Null) { }
     /// <summary>
     /// any nullable type converter
     /// </summary>
     /// <param name="converter"></param>
     /// <param name="nullable"></param>
-    public JsonNullableConverter(JsonConverter converter, NullableType nullable = NullableType.Null) : this(converter, nullable, nullable) { }
+    public JsonNullableConverter(JsonConverter converter, JsonNullableType nullable = JsonNullableType.Null) : this(converter, nullable, nullable) { }
     /// <summary>
     /// any nullable type converter
     /// </summary>
     /// <param name="converter"></param>
     /// <param name="readNullable"></param>
     /// <param name="writeNullable"></param>
-    public JsonNullableConverter(JsonConverter converter, NullableType readNullable, NullableType writeNullable)
+    public JsonNullableConverter(JsonConverter converter, JsonNullableType readNullable, JsonNullableType writeNullable)
     {
         Validate(converter);
         _converter = converter;
@@ -90,21 +90,21 @@ public sealed class JsonNullableConverter<TOuter, TInner> : JsonConverter<TOuter
     /// <inheritdoc/>
     public override bool HandleNull => true;
     readonly JsonConverter<TInner> _converter;
-    readonly NullableType _readNullable;
-    readonly NullableType _writeNullable;
+    readonly JsonNullableType _readNullable;
+    readonly JsonNullableType _writeNullable;
     /// <summary>
     /// any nullable type converter
     /// </summary>
     /// <param name="converter"></param>
     /// <param name="nullable"></param>
-    public JsonNullableConverter(JsonConverter<TInner> converter, NullableType nullable) : this(converter, nullable, nullable) { }
+    public JsonNullableConverter(JsonConverter<TInner> converter, JsonNullableType nullable) : this(converter, nullable, nullable) { }
     /// <summary>
     /// any nullable type converter
     /// </summary>
     /// <param name="converter"></param>
     /// <param name="readNullable"></param>
     /// <param name="writeNullable"></param>
-    public JsonNullableConverter(JsonConverter<TInner> converter, NullableType readNullable, NullableType writeNullable)
+    public JsonNullableConverter(JsonConverter<TInner> converter, JsonNullableType readNullable, JsonNullableType writeNullable)
     {
         _converter = converter;
         _readNullable = readNullable;
@@ -141,15 +141,15 @@ public sealed class JsonNullableConverter<T> : JsonConverter<T>
     /// <inheritdoc/>
     public override bool HandleNull => true;
     readonly JsonConverter<T> _converter;
-    readonly NullableType _readNullable;
-    readonly NullableType _writeNullable;
+    readonly JsonNullableType _readNullable;
+    readonly JsonNullableType _writeNullable;
     /// <summary>
     /// any nullable type converter
     /// </summary>
     /// <param name="converter"></param>
     /// <param name="readNullable"></param>
     /// <param name="writeNullable"></param>
-    public JsonNullableConverter(JsonConverter<T> converter, NullableType readNullable, NullableType writeNullable)
+    public JsonNullableConverter(JsonConverter<T> converter, JsonNullableType readNullable, JsonNullableType writeNullable)
     {
         _converter = converter;
         _readNullable = readNullable;
