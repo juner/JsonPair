@@ -23,6 +23,10 @@ public enum NullableType
     /// </summary>
     EmptyString = 4,
     /// <summary>
+    /// empty arrray
+    /// </summary>
+    EmptyArray = 8,
+    /// <summary>
     /// any nullable
     /// </summary>
     Any = Null | False | EmptyString,

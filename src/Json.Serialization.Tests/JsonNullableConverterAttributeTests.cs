@@ -18,8 +18,8 @@ public class JsonNullableConverterAttributeTests
     {
         JsonSerializerOptions options = new(JsonSerializerDefaults.Web);
         {
-            var json = "{\"value1\":false,\"value2\":\"\",\"value3\":null}";
-            Record1 expectedResult = new(null, null, null);
+            var json = "{\"value1\":false,\"value2\":\"\",\"value3\":null,\"value4\":[]}";
+            Record1 expectedResult = new(null, null, null, null);
             var actualResult = JsonSerializer.Deserialize<Record1>(json, options)!;
             Assert.AreEqual(expectedResult, actualResult, "deserialize nullable");
         }
@@ -48,37 +48,41 @@ public class JsonNullableConverterAttributeTests
             Assert.ThrowsException<JsonException>(() => JsonSerializer.Deserialize<Record1>(json, options));
         }
         {
-            var json = "{\"value1\":\"Type1\",\"value2\":\"Type2\",\"value3\":\"Type3\"}";
-            Record1 expectedResult = new(Enum1.Type1, Enum1.Type2, Enum1.Type3);
+            var json = "{\"value1\":\"Type1\",\"value2\":\"Type2\",\"value3\":\"Type3\",\"value4\":{\"value\":\"test\"}}";
+            Record1 expectedResult = new(Enum1.Type1, Enum1.Type2, Enum1.Type3, new("test"));
             var actualResult = JsonSerializer.Deserialize<Record1>(json, options)!;
             Assert.AreEqual(expectedResult, actualResult, "deserialize");
         }
         {
-            var expectedJson = "{\"value1\":false,\"value2\":\"\",\"value3\":null}";
-            Record1 record = new(null, null, null);
+            var expectedJson = "{\"value1\":false,\"value2\":\"\",\"value3\":null,\"value4\":[]}";
+            Record1 record = new(null, null, null, null);
             var actualJson = JsonSerializer.Serialize(record, options)!;
             Assert.AreEqual(expectedJson, actualJson, "serialize nullable");
         }
         {
-            var expectedJson = "{\"value1\":\"Type1\",\"value2\":\"Type2\",\"value3\":\"Type3\"}";
-            Record1 record = new(Enum1.Type1, Enum1.Type2, Enum1.Type3);
+            var expectedJson = "{\"value1\":\"Type1\",\"value2\":\"Type2\",\"value3\":\"Type3\",\"value4\":{\"value\":\"test\"}}";
+            Record1 record = new(Enum1.Type1, Enum1.Type2, Enum1.Type3, new("test"));
             var actualJson = JsonSerializer.Serialize(record, options)!;
             Assert.AreEqual(expectedJson, actualJson, "serialize");
         }
     }
     internal record Record1(
         [property: JsonNullableConverter(typeof(JsonStringEnumConverter), NullableType.False)]
-        Enum1? Value1,
+        Enum1? Value1 = null,
         [property: JsonNullableConverter(typeof(JsonStringEnumConverter), NullableType.EmptyString)]
-        Enum1? Value2,
+        Enum1? Value2 = null,
         [property: JsonNullableConverter(typeof(JsonStringEnumConverter), NullableType.Null)]
-        Enum1? Value3);
+        Enum1? Value3 = null,
+        [property: JsonNullableConverter(typeof(InconsistentConverter), NullableType.EmptyArray)]
+        RecordChild1? Value4 = null);
     internal enum Enum1
     {
         Type1,
         Type2,
         Type3,
+        Type4,
     }
+    internal record RecordChild1(string Value);
     [TestMethod("NullableType.Any")]
     public void AnyNullableSetTest()
     {

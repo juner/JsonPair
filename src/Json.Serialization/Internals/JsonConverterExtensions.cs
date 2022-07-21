@@ -3,7 +3,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace Juners.Json.Serialization.Internals;
-
 internal static class JsonConverterExtensions
 {
     /// <summary>
@@ -83,14 +82,14 @@ internal static class JsonConverterExtensions
         if (con.TryGetFactory(out var factory))
         {
             if (factory.TryCreateTypedConverter(typeToConvert, options, out converter, out innerType))
-                return outerType.IsAssignableFrom(innerType);
+                return innerType == typeof(object) || outerType.IsAssignableFrom(innerType);
             else if (Nullable.GetUnderlyingType(typeToConvert) is { } notNullableTypeToConvert
                     && factory.TryCreateTypedConverter(notNullableTypeToConvert, options, out converter, out innerType))
-                return outerType.IsAssignableFrom(innerType);
+                return innerType == typeof(object) || outerType.IsAssignableFrom(innerType);
             return false;
         }
         if (con.TryGetTypedConverter(out converter, out innerType))
-            return outerType.IsAssignableFrom(innerType);
+            return innerType == typeof(object) || outerType.IsAssignableFrom(innerType);
         return false;
     }
 }

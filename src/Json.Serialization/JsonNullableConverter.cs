@@ -5,7 +5,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace Juners.Json.Serialization;
-
 /// <summary>
 /// any nullable type converter
 /// </summary>
@@ -64,7 +63,7 @@ public sealed class JsonNullableConverter : JsonConverterFactory
         }
         if (_converter.TryGetTypedConverter(out _, out var typed))
         {
-            return typeToConvert.IsAssignableFrom(typed);
+            return typed == typeof(object) || typeToConvert.IsAssignableFrom(typed);
         }
         return false;
     }
@@ -88,6 +87,7 @@ public sealed class JsonNullableConverter : JsonConverterFactory
 /// <typeparam name="TInner">内部型</typeparam>
 public sealed class JsonNullableConverter<TOuter, TInner> : JsonConverter<TOuter>
 {
+    /// <inheritdoc/>
     public override bool HandleNull => true;
     readonly JsonConverter<TInner> _converter;
     readonly NullableType _readNullable;
@@ -138,16 +138,11 @@ public sealed class JsonNullableConverter<TOuter, TInner> : JsonConverter<TOuter
 /// <typeparam name="T">外見型</typeparam>
 public sealed class JsonNullableConverter<T> : JsonConverter<T>
 {
+    /// <inheritdoc/>
     public override bool HandleNull => true;
     readonly JsonConverter<T> _converter;
     readonly NullableType _readNullable;
     readonly NullableType _writeNullable;
-    /// <summary>
-    /// any nullable type converter
-    /// </summary>
-    /// <param name="converter"></param>
-    /// <param name="nullable"></param>
-    public JsonNullableConverter(JsonConverter<T> converter, NullableType nullable = NullableType.Null) : this(converter, nullable, nullable) { }
     /// <summary>
     /// any nullable type converter
     /// </summary>
