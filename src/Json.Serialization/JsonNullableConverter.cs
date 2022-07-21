@@ -51,7 +51,7 @@ public sealed class JsonNullableConverter : JsonConverterFactory
             ))
             throw new ArgumentException($"not support converter type {converter.GetType()}", nameof(converter));
     }
-
+    /// <inheritdoc/>
     public override bool CanConvert(Type typeToConvert)
     {
         if (_converter.TryGetFactory(out var factory))
@@ -68,6 +68,7 @@ public sealed class JsonNullableConverter : JsonConverterFactory
         }
         return false;
     }
+    /// <inheritdoc/>
     public override JsonConverter? CreateConverter(Type typeToConvert, JsonSerializerOptions options)
     {
         if (_converter.TryGetTypedConverter(typeToConvert, options, out var converter, out var outerType, out var innerType))
@@ -87,6 +88,7 @@ public sealed class JsonNullableConverter : JsonConverterFactory
 /// <typeparam name="TInner">内部型</typeparam>
 public sealed class JsonNullableConverter<TOuter, TInner> : JsonConverter<TOuter>
 {
+    public override bool HandleNull => true;
     readonly JsonConverter<TInner> _converter;
     readonly NullableType _readNullable;
     readonly NullableType _writeNullable;
@@ -108,7 +110,7 @@ public sealed class JsonNullableConverter<TOuter, TInner> : JsonConverter<TOuter
         _readNullable = readNullable;
         _writeNullable = writeNullable;
     }
-
+    /// <inheritdoc/>
     public override TOuter? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.IsNullable(_readNullable))
@@ -118,6 +120,7 @@ public sealed class JsonNullableConverter<TOuter, TInner> : JsonConverter<TOuter
             return default;
         return result;
     }
+    /// <inheritdoc/>
     public override void Write(Utf8JsonWriter writer, TOuter value, JsonSerializerOptions options)
     {
         if (value is not TInner innerValue)
@@ -130,20 +133,34 @@ public sealed class JsonNullableConverter<TOuter, TInner> : JsonConverter<TOuter
     }
 }
 /// <summary>
-/// 任意に定義した null表現のあるコンバーター
+/// any nullable type converter
 /// </summary>
 /// <typeparam name="T">外見型</typeparam>
 public sealed class JsonNullableConverter<T> : JsonConverter<T>
 {
+    public override bool HandleNull => true;
     readonly JsonConverter<T> _converter;
     readonly NullableType _readNullable;
     readonly NullableType _writeNullable;
+    /// <summary>
+    /// any nullable type converter
+    /// </summary>
+    /// <param name="converter"></param>
+    /// <param name="nullable"></param>
+    public JsonNullableConverter(JsonConverter<T> converter, NullableType nullable = NullableType.Null) : this(converter, nullable, nullable) { }
+    /// <summary>
+    /// any nullable type converter
+    /// </summary>
+    /// <param name="converter"></param>
+    /// <param name="readNullable"></param>
+    /// <param name="writeNullable"></param>
     public JsonNullableConverter(JsonConverter<T> converter, NullableType readNullable, NullableType writeNullable)
     {
         _converter = converter;
         _readNullable = readNullable;
         _writeNullable = writeNullable;
     }
+    /// <inheritdoc/>
     public override T? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.IsNullable(_readNullable))
@@ -151,6 +168,7 @@ public sealed class JsonNullableConverter<T> : JsonConverter<T>
         typeToConvert = Nullable.GetUnderlyingType(typeToConvert) ?? typeToConvert;
         return _converter.Read(ref reader, typeToConvert, options)!;
     }
+    /// <inheritdoc/>
     public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
     {
         if (value is null)

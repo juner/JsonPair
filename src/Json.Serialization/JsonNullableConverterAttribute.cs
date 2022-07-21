@@ -9,7 +9,13 @@ namespace Juners.Json.Serialization;
 public class JsonNullableConverterAttribute : JsonConverterAttribute
 {
     readonly Type _converterType;
+    /// <summary>
+    /// read nullable
+    /// </summary>
     public NullableType ReadNullable { get; set; }
+    /// <summary>
+    /// write nullable
+    /// </summary>
     public NullableType WriteNullable { get; set; }
     /// <summary>
     /// use <see cref="JsonNullableConverter"/> attribute.
@@ -36,8 +42,6 @@ public class JsonNullableConverterAttribute : JsonConverterAttribute
     public override JsonConverter? CreateConverter(Type typeToConvert)
     {
         var converter = (JsonConverter)Activator.CreateInstance(_converterType)!;
-        var factory = new JsonNullableConverter(converter);
-        JsonSerializerOptions options = new();
-        return factory.CreateConverter(typeToConvert, options);
+        return new JsonNullableConverter(converter, ReadNullable, WriteNullable);
     }
 }

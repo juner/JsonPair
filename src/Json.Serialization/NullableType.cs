@@ -22,4 +22,8 @@ public enum NullableType
     /// Empty String
     /// </summary>
     EmptyString = 4,
+    /// <summary>
+    /// any nullable
+    /// </summary>
+    Any = Null | False | EmptyString,
 }

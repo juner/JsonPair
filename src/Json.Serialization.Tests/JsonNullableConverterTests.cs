@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Juners.Json.Serialization.Tests;
 
 [TestClass()]
-public class NullableConverterTests
+public class JsonNullableConverterTests
 {
     [TestMethod()]
     public void CanConvertTest1()
