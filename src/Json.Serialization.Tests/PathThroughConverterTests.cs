@@ -1,12 +1,12 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Juners.Json.Serialization;
+﻿using Juners.Json.Serialization;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Text.Json.Serialization;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 
 namespace Juners.Json.Serialization.Tests;
 
@@ -18,13 +18,13 @@ public class PathThroughConverterTests
     {
         JsonSerializerOptions options = new(JsonSerializerDefaults.Web);
         {
-            Record1 record = new(new("test"),1);
+            Record1 record = new(new("test"), 1);
             var expected = "{\"child\":{\"childValue\":\"test\"},\"subValue\":1}";
             var actual = JsonSerializer.Serialize(record, options);
             Assert.AreEqual(expected, actual, "serialize string property");
         }
         {
-            Record1 expected = new(new("test"),1);
+            Record1 expected = new(new("test"), 1);
             var json = "{\"child\":{\"childValue\":\"test\"},\"subValue\":1}";
             var actual = JsonSerializer.Deserialize<Record1>(json, options);
             Assert.AreEqual(expected, actual, "deserialize string property");
