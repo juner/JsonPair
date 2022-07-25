@@ -25,4 +25,24 @@ public class StringCaseExtensionsTests
     [DataRow("SNAKE_CASE", false, "snakeCase")]
     public void SnakeCaseToCamelCaseTest(string value, bool usePascal, string expected)
         => Assert.AreEqual(expected, value.SnakeCaseToCamelCase(usePascal));
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="expected"></param>
+    [TestMethod("CamelCase -> kebab-case")]
+    [DataRow("CamelCase", "camel-case")]
+    [DataRow("pascalCase", "pascal-case")]
+    [DataRow("ACamelCase", "a-camel-case")]
+    public void CamelCaseToKebabCaseTest(string value, string expected)
+        => Assert.AreEqual(expected, value.CamelCaseToKebabCase());
+
+    [TestMethod("kebab-case -> CamelCase ")]
+    [DataRow("kebab-case", false, "kebabCase")]
+    [DataRow("kebab-case", true, "KebabCase")]
+    [DataRow("-kebab-case", false, "KebabCase")]
+    [DataRow("KEBAB-CASE", false, "kebabCase")]
+    public void KebabCaseToCamelCaseTest(string value, bool usePascal, string expected)
+        => Assert.AreEqual(expected, value.KebabCaseToCamelCase(usePascal));
 }

@@ -4,7 +4,7 @@ using System.Text.Json;
 namespace Juners.Json;
 
 /// <summary>
-/// snake_case 形式に名前を変換するポリシー
+/// snake_case naming policy
 /// </summary>
 public class SnakeCaseNamingPolicy : JsonNamingPolicy
 {
