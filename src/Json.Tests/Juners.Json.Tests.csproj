@@ -17,9 +17,11 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <TestResultsFolderPath>$(MSBuildProjectDirectory)\TestResults</TestResultsFolderPath>
+	<TestResultsFolderPath>$(MSBuildProjectDirectory)\TestResults</TestResultsFolderPath>
+	<TestResultsFolderPath2>$(MSBuildProjectDirectory)\..\..\TestResults</TestResultsFolderPath2>
   </PropertyGroup>
   <Target Name="TestResultCleaning" AfterTargets="Clean">
-    <RemoveDir Directories="$(TestResultsFolderPath)" Condition="Exists('$(TestResultsFolderPath)')" />
+	<RemoveDir Directories="$(TestResultsFolderPath)" Condition="Exists('$(TestResultsFolderPath)')" />
+	<RemoveDir Directories="$(TestResultsFolderPath2)" Condition="Exists('$(TestResultsFolderPath2)')" />
   </Target>
 </Project>
