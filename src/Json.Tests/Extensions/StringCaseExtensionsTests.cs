@@ -6,11 +6,6 @@ namespace Juners.Json.Extensions.Tests;
 [TestClass()]
 public class StringCaseExtensionsTests
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="value"></param>
-    /// <param name="expected"></param>
     [TestMethod("CamelCase -> snake_case")]
     [DataRow("CamelCase", "camel_case")]
     [DataRow("pascalCase", "pascal_case")]
@@ -26,11 +21,6 @@ public class StringCaseExtensionsTests
     public void SnakeCaseToCamelCaseTest(string value, bool usePascal, string expected)
         => Assert.AreEqual(expected, value.SnakeCaseToCamelCase(usePascal));
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="value"></param>
-    /// <param name="expected"></param>
     [TestMethod("CamelCase -> kebab-case")]
     [DataRow("CamelCase", "camel-case")]
     [DataRow("pascalCase", "pascal-case")]
