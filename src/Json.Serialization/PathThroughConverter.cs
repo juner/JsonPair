@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Juners.Json.Serialization;
 
 /// <summary>
-/// default converter
+/// path through converter (default object serialize / deserialize)
 /// </summary>
 /// <remarks>
 /// Do not register and use it in <see cref="JsonSerializerOptions"/>.<br/>
@@ -15,29 +15,31 @@ namespace Juners.Json.Serialization;
 /// Correct usage
 /// <code>
 /// record OkRecord(
-///   [property: JsonConverter(typeof(JsonDefaultConverter))]
+///   [property: JsonConverter(typeof(PathThroughConverter))]
 ///   string Value
 /// );
 /// </code>
 /// Wrong usage
 /// <code>
-/// [JsonConverter(typeof(JsonDefaultConverter)]
+/// [JsonConverter(typeof(PathThroughConverter)]
 /// record NgRecord(
 ///   string Value
 /// );
 /// </code>
 /// </example>
-public class JsonDefaultConverter : JsonConverterFactory
+public class PathThroughConverter : JsonConverterFactory
 {
     /// <inheritdoc/>
     public override bool CanConvert(Type typeToConvert) => true;
     /// <inheritdoc/>
     public override JsonConverter? CreateConverter(Type typeToConvert, JsonSerializerOptions options)
-        => (JsonConverter?)Activator.CreateInstance(typeof(JsonDefaultConverter<>).MakeGenericType(typeToConvert));
+        => (JsonConverter?)Activator.CreateInstance(typeof(PathThroughConverter<>).MakeGenericType(typeToConvert));
 }
+
 /// <summary>
-/// default converter
+/// path through converter (default object serialize / deserialize)
 /// </summary>
+/// <typeparam name="T">Force type</typeparam>
 /// <remarks>
 /// Do not register and use it in <see cref="JsonSerializerOptions"/>.<br/>
 /// Also, do not register it in the <see cref="JsonConverterAttribute"/> of the <c>class</c> or <c>struct</c>.<br/>
@@ -47,24 +49,28 @@ public class JsonDefaultConverter : JsonConverterFactory
 /// Correct usage
 /// <code>
 /// record OkRecord(
-///   [property: JsonConverter(typeof(JsonDefaultConverter&lt;string&gt;))]
+///   [property: JsonConverter(typeof(PathThroughConverter&lt;string&gt;))]
 ///   string Value
 /// );
 /// </code>
 /// Wrong usage
 /// <code>
-/// [JsonConverter(typeof(JsonDefaultConverter&lt;string&gt;)]
+/// [JsonConverter(typeof(PathThroughConverter&lt;string&gt;)]
 /// record NgRecord(
 ///   string Value
 /// );
 /// </code>
 /// </example>
-public class JsonDefaultConverter<T> : JsonConverter<T>
+public class PathThroughConverter<T> : JsonConverter<T>
 {
     /// <inheritdoc/>
-    public override T? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-        => (T?)JsonSerializer.Deserialize(ref reader, typeToConvert);
+    public override bool CanConvert(Type typeToConvert)
+        => typeof(T).IsAssignableFrom(typeToConvert);
     /// <inheritdoc/>
-    public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
-        => JsonSerializer.Serialize(writer, value);
+    public override T? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        => JsonSerializer.Deserialize<T>(ref reader, options);
+
+    /// <inheritdoc/>
+    public override void Write(Utf8JsonWriter writer, T? value, JsonSerializerOptions options)
+        => JsonSerializer.Serialize(writer, value, options);
 }

@@ -73,7 +73,7 @@ public class JsonNullableConverterAttributeTests
         Enum1? Value2 = null,
         [property: JsonNullableConverter(typeof(JsonStringEnumConverter), JsonNullableType.Null)]
         Enum1? Value3 = null,
-        [property: JsonNullableConverter(typeof(InconsistentConverter), JsonNullableType.EmptyArray)]
+        [property: JsonNullableConverter(typeof(PathThroughConverter), JsonNullableType.EmptyArray)]
         RecordChild1? Value4 = null);
     internal enum Enum1
     {
