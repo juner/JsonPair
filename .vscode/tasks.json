@@ -127,6 +127,47 @@
                 "clear": false
             },
             "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "pack preview",
+            "command": "dotnet",
+            "type": "shell",
+            "args": [
+                "pack",
+                "${workspaceFolder}/Juners.Json.sln",
+                "-o packages",
+                "--version-suffix preview",
+                "--include-symbols",
+                "--include-source",
+            ],
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "pack",
+            "command": "dotnet",
+            "type": "shell",
+            "args": [
+                "pack",
+                "${workspaceFolder}/Juners.Json.sln",
+                "-o packages",
+                "--include-symbols",
+                "--include-source",
+            ],
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": "$msCompile"
         }
     ]
 }
