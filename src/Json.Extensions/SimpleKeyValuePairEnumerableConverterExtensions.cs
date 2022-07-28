@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using static Juners.Json.Extensions.Helpers.ThrowHelper;
 
 namespace Juners.Json.Extensions;
 
@@ -69,12 +70,12 @@ public static class SimpleKeyValuePairEnumerableConverterExtensions
     /// <param name="member"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentException"></exception>
-    static Type GetUnderlyingType(this MemberInfo member)
-        => member.MemberType switch
+    internal static Type GetUnderlyingType(this MemberInfo member)
+        => member switch
         {
-            MemberTypes.Field => ((FieldInfo)member).FieldType,
-            MemberTypes.Property => ((PropertyInfo)member).PropertyType,
-            _ => throw new ArgumentException($"not support memberType:{member.MemberType}"),
+            FieldInfo info => info.FieldType,
+            PropertyInfo info => info.PropertyType,
+            _ => ThrowNotSupportMemberType<Type>(member.MemberType),
         };
     /// <summary>
     /// <paramref name="member"/>を元に<paramref name="self"/>に於けるその値を取得する
@@ -83,12 +84,12 @@ public static class SimpleKeyValuePairEnumerableConverterExtensions
     /// <param name="self"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentException"></exception>
-    static object? GetUnderlyingValue(this MemberInfo member, object? self)
-        => member.MemberType switch
+    internal static object? GetUnderlyingValue(this MemberInfo member, object? self)
+        => member switch
         {
-            MemberTypes.Field => ((FieldInfo)member).GetValue(self),
-            MemberTypes.Property => ((PropertyInfo)member).GetValue(self),
-            _ => throw new ArgumentException($"not support memberType:{member.MemberType}"),
+            FieldInfo info => info.GetValue(self),
+            PropertyInfo info => info.GetValue(self),
+            _ => ThrowNotSupportMemberType<object?>(member.MemberType),
         };
     static MethodInfo? _isIgnoreCache;
     static MethodInfo IsIgnoreCache => _isIgnoreCache ??= typeof(SimpleKeyValuePairEnumerableConverterExtensions)
@@ -141,7 +142,7 @@ public static class SimpleKeyValuePairEnumerableConverterExtensions
                 if (propertyTypeCanBeNull)
                     ignoreDefaultValuesOnWrite = true;
                 else
-                    throw new InvalidOperationException("ignore condition on value type invalid");
+                    ThrowIgnoreConditionOnValueTypeInvalid();
             }
         }
         if (ignoreDefaultValuesOnWrite)
@@ -178,13 +179,13 @@ public static class SimpleKeyValuePairEnumerableConverterExtensions
         {
             converter = converterAttribute.CreateConverter(typeToConvert);
             if (converter is null)
-                throw new InvalidOperationException("serialization converter on attribute not compatible");
+                ThrowSerializationConverterOnAttributeNotCompatible();
         }
         else
         {
             var ctor = converterType.GetConstructor(Type.EmptyTypes);
             if (!typeof(JsonConverter).IsAssignableFrom(converterType) || ctor is null || !ctor.IsPublic)
-                throw new InvalidOperationException("serialization converter on attribute invalid");
+                ThrowSerializationConverterOnAttributeNotCompatible();
 #pragma warning disable CS8600 // Null リテラルまたは Null の可能性がある値を Null 非許容型に変換しています。
             converter = (JsonConverter)Activator.CreateInstance(converterType);
 #pragma warning restore CS8600 // Null リテラルまたは Null の可能性がある値を Null 非許容型に変換しています。
